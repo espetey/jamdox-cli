@@ -17,6 +17,7 @@ program
         searchQuery += '+' + q;
       });
     }
+    archiveOrgService.searchCreator(10, searchQuery);
   });
 
 program.parse(process.argv);

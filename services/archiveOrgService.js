@@ -43,6 +43,16 @@ module.exports.getArtist = function getArtist(artist) {
     })
 }
 
+module.exports.searchCreator = function searchCreator(count, creator) {
+    const reqPath = 'https://archive.org/advancedsearch.php?q=creator:' + creator + '&mediatype:etree&sort[]=oai_updatedate+desc&rows=' + count + '&output=json'
+
+    request(reqPath, function (err, response, body) {
+        const resJson = JSON.parse(response.body)
+        const rawCreators = resJson.response.docs
+        console.log(rawCreators)
+    })
+}
+
 /*
  * Helper methods
  */
