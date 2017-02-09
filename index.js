@@ -1,13 +1,31 @@
 #!/usr/bin/env node
 
+const program = require('commander');
+const co = require('co');
+const prompt = require('co-prompt');
 const mongoDb = require('./config/mongo.js');
 const archiveOrgService = require('./services/archiveOrgService.js');
+
+
+program
+  .version('0.0.1')
+  .command('search <query> [queries...]')
+  .action(function (query, queries) {
+    let searchQuery = query;
+    if (queries) {
+      queries.forEach(function (q) {
+        searchQuery += '+' + q;
+      });
+    }
+  });
+
+program.parse(process.argv);
 
 /* test generic mongo stubs */
 // mongoDb.mongo();
 
 
-archiveOrgService.getAllArtists();
+// archiveOrgService.getAllArtists();
 // archiveOrgService.getArtist();
 
 
