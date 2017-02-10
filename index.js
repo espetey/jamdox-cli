@@ -17,8 +17,18 @@ program
         searchQuery += '+' + q;
       });
     }
-    archiveOrgService.searchCreator(10, searchQuery);
-  });
+    archiveOrgService.searchCreator(4, searchQuery)
+    .then(sets => {
+      sets.map(set => {
+        //
+      })
+    })
+    .catch(error => handleError(error))
+  })
+
+const handleError = function(error) {
+  console.log('An error occurred: ' + error);
+}
 
 program.parse(process.argv);
 
