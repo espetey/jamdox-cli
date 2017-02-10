@@ -7,30 +7,43 @@ const mongoDb = require('./config/mongo.js');
 const archiveOrgService = require('./services/archiveOrgService.js');
 
 
+
 program
   .version('0.0.1')
-  .command('search <query> [queries...]')
+  .usage('[options] <file ...>')
+  .option('-s, --search <items>', 'Search by artist name or keyword', parseList)
   .action(function (query, queries) {
-    let searchQuery = query;
-    if (queries) {
-      queries.forEach(function (q) {
-        searchQuery += '+' + q;
-      });
-    }
-    archiveOrgService.searchCreator(4, searchQuery)
-    .then(sets => {
-      sets.map(set => {
-        //
-      })
-    })
-    .catch(error => handleError(error))
-  })
+    console.log('so we got anything or waht');
+    console.log(program.parseList);
 
-const handleError = function(error) {
+    let searchQuery = query;
+
+  })
+  .parse(process.argv);
+
+const handleError = function (error) {
   console.log('An error occurred: ' + error);
 }
 
-program.parse(process.argv);
+function parseList(val) {
+  const queries = val.split(',');
+  let searchQuery = '';
+  if (queries) {
+    queries.forEach(function (q) {
+      searchQuery += '+' + q;
+    });
+  }
+  archiveOrgService.searchCreator(4, searchQuery)
+    .then(sets => {
+      sets.map(set => {
+        console.log(set['creator'] + ' - ' + set['title'] + ' - ' + set['date'])
+      })
+    })
+    .catch(error => handleError(error))
+  console.log(val.split(','));
+  return val.split(',');
+}
+
 
 /* test generic mongo stubs */
 // mongoDb.mongo();
